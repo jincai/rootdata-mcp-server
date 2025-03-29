@@ -1,0 +1,17 @@
+[project]
+name = "rootdata-mcp-server"
+version = "0.1.0"
+description = "MCP server for RootData API integration"
+requires-python = ">=3.8"
+
+dependencies = [
+    "fastapi>=0.110.0,<0.111.0",
+    "uvicorn[standard]>=0.27.1,<0.28.0",
+    "pydantic>=2.6.3,<2.7.0",
+    "requests>=2.31.0,<2.32.0",
+    "python-dotenv>=1.0.1,<1.1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
