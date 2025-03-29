@@ -62,6 +62,32 @@ python server.py
 
 服务器默认在 `http://localhost:8000` 启动。
 
+### 使用 Docker 运行
+
+如果你遇到依赖冲突问题，或者想在隔离环境中运行服务器，可以使用 Docker：
+
+1. 构建 Docker 镜像：
+
+```bash
+docker build -t rootdata-mcp-server .
+```
+
+2. 创建 `.env` 文件（如果还没有）：
+
+```bash
+cp .env.example .env
+```
+
+编辑 `.env` 文件，填入你的 RootData API 密钥。
+
+3. 运行 Docker 容器：
+
+```bash
+docker run -p 8000:8000 --env-file .env rootdata-mcp-server
+```
+
+服务器将在 `http://localhost:8000` 启动。
+
 ## MCP 工具说明
 
 本服务器提供以下 MCP 工具：
