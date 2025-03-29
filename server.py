@@ -124,7 +124,7 @@ async def get_manifest():
 async def health_check():
     return {"status": "ok"}
 
-def find_available_port(start_port=8000, max_port=9000):
+def find_available_port(start_port=8400, max_port=8500):
     """Find an available port by checking a range of ports"""
     # First try the specified start_port
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
