@@ -1,6 +1,7 @@
 import os
 import json
 import uvicorn
+import socket
 from fastapi import FastAPI, Request, Response, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -122,7 +123,22 @@ async def get_manifest():
 async def health_check():
     return {"status": "ok"}
 
+def find_available_port(start_port=8000, max_port=8100):
+    """Find an available port by checking a range of ports"""
+    for port in range(start_port, max_port):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            if s.connect_ex(('localhost', port)) != 0:
+                return port
+    raise RuntimeError(f"No available ports found in range {start_port}-{max_port}")
+
 # Run the server
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", "8000"))
+    # Get port from environment variable or find an available port
+    port = os.getenv("PORT")
+    if port:
+        port = int(port)
+    else:
+        port = find_available_port()
+        print(f"No port specified or port 8000 is in use. Using available port: {port}")
+    
     uvicorn.run("server:app", host="0.0.0.0", port=port, reload=True)
