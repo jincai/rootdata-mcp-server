@@ -63,7 +63,13 @@ ROOTDATA_API_KEY=your_api_key_here
 python server.py
 ```
 
-服务器默认在 `http://localhost:8000` 启动。
+服务器会尝试在 `http://localhost:8000` 启动。如果端口 8000 已被占用，服务器会自动寻找一个可用的端口（8000-8100 范围内），并显示实际使用的端口。
+
+你也可以通过环境变量指定端口：
+
+```bash
+PORT=8080 python server.py
+```
 
 ### 使用 Docker 运行
 
@@ -86,17 +92,19 @@ cp .env.example .env
 3. 运行 Docker 容器：
 
 ```bash
+# 使用默认端口（如果 8000 可用）
 docker run -p 8000:8000 --env-file .env rootdata-mcp-server
-```
 
-服务器将在 `http://localhost:8000` 启动。
+# 或者指定一个特定端口
+docker run -e PORT=8080 -p 8080:8080 --env-file .env rootdata-mcp-server
+```
 
 ## 验证安装
 
-启动服务器后，可以通过访问以下 URL 来验证服务器是否正常运行：
+启动服务器后，可以通过访问以下 URL 来验证服务器是否正常运行（将 PORT 替换为实际使用的端口）：
 
-- 健康检查: http://localhost:8000/health
-- MCP 清单: http://localhost:8000/manifest.json
+- 健康检查: http://localhost:PORT/health
+- MCP 清单: http://localhost:PORT/manifest.json
 
 ## MCP 工具说明
 
