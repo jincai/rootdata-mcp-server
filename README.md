@@ -28,18 +28,21 @@ cd rootdata-mcp-server
 
 2. 安装依赖：
 
-使用 pip（可能会有依赖冲突）：
+**方法 1: 使用 pip**（可能会有依赖冲突）：
 ```bash
 pip install -r requirements.txt
 ```
 
-或者推荐使用 uv（更好地处理依赖冲突）：
+**方法 2: 使用 uv**（推荐，更好地处理依赖冲突）：
 ```bash
 # 如果没有安装 uv，先安装它
 pip install uv
 
-# 使用 uv 安装依赖
+# 使用 uv 安装依赖（从 requirements.txt）
 uv pip install -r requirements.txt
+
+# 或者使用 pyproject.toml（更推荐）
+uv pip install -e .
 ```
 
 3. 配置环境变量：
@@ -87,6 +90,13 @@ docker run -p 8000:8000 --env-file .env rootdata-mcp-server
 ```
 
 服务器将在 `http://localhost:8000` 启动。
+
+## 验证安装
+
+启动服务器后，可以通过访问以下 URL 来验证服务器是否正常运行：
+
+- 健康检查: http://localhost:8000/health
+- MCP 清单: http://localhost:8000/manifest.json
 
 ## MCP 工具说明
 
