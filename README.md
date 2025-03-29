@@ -28,8 +28,18 @@ cd rootdata-mcp-server
 
 2. 安装依赖：
 
+使用 pip（可能会有依赖冲突）：
 ```bash
 pip install -r requirements.txt
+```
+
+或者推荐使用 uv（更好地处理依赖冲突）：
+```bash
+# 如果没有安装 uv，先安装它
+pip install uv
+
+# 使用 uv 安装依赖
+uv pip install -r requirements.txt
 ```
 
 3. 配置环境变量：
