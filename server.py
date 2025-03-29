@@ -2,6 +2,7 @@ import os
 import json
 import uvicorn
 import socket
+import random
 from fastapi import FastAPI, Request, Response, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -123,12 +124,22 @@ async def get_manifest():
 async def health_check():
     return {"status": "ok"}
 
-def find_available_port(start_port=8000, max_port=8100):
+def find_available_port(start_port=8000, max_port=9000):
     """Find an available port by checking a range of ports"""
-    for port in range(start_port, max_port):
+    # First try the specified start_port
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        if s.connect_ex(('localhost', start_port)) != 0:
+            return start_port
+    
+    # If start_port is not available, try random ports in the range
+    ports_to_try = list(range(start_port + 1, max_port))
+    random.shuffle(ports_to_try)  # Randomize to reduce collision chance
+    
+    for port in ports_to_try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             if s.connect_ex(('localhost', port)) != 0:
                 return port
+    
     raise RuntimeError(f"No available ports found in range {start_port}-{max_port}")
 
 # Run the server
@@ -139,6 +150,10 @@ if __name__ == "__main__":
         port = int(port)
     else:
         port = find_available_port()
-        print(f"No port specified or port 8000 is in use. Using available port: {port}")
+        print(f"Using available port: {port}")
     
-    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=True)
+    # Disable reload mode to avoid port conflicts
+    use_reload = os.getenv("RELOAD", "false").lower() == "true"
+    
+    print(f"Starting server on port {port} (reload mode: {use_reload})")
+    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=use_reload)
