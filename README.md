@@ -28,7 +28,7 @@ cd rootdata-mcp-server
 
 2. 安装依赖：
 
-**方法 1: 使用 pip**（可能会有依赖冲突）：
+**方法 1: 使用 pip**：
 ```bash
 pip install -r requirements.txt
 ```
@@ -38,11 +38,8 @@ pip install -r requirements.txt
 # 如果没有安装 uv，先安装它
 pip install uv
 
-# 使用 uv 安装依赖（从 requirements.txt）
+# 使用 uv 安装依赖
 uv pip install -r requirements.txt
-
-# 或者使用 pyproject.toml（更推荐）
-uv pip install -e .
 ```
 
 3. 配置环境变量：
@@ -59,38 +56,30 @@ ROOTDATA_API_KEY=your_api_key_here
 
 ### 启动服务器
 
-**推荐方式**（使用专用运行脚本）：
-
 ```bash
-python run.py
+python server.py
 ```
 
-服务器会在 `http://localhost:8400` 启动。如果端口 8400 已被占用，服务器会自动选择 8400-8500 范围内的另一个可用端口。
+服务器会在 `http://localhost:8400` 启动。
 
 #### 高级启动选项
 
 **指定端口**：
 
 ```bash
-PORT=8450 python run.py
+PORT=8500 python server.py
 ```
 
 **启用热重载**（开发模式，会监视文件变化并自动重启）：
 
 ```bash
-RELOAD=true python run.py
+RELOAD=true python server.py
 ```
 
 **同时指定端口和启用热重载**：
 
 ```bash
-PORT=8450 RELOAD=true python run.py
-```
-
-**直接使用 server.py**（不推荐，但也支持）：
-
-```bash
-python server.py
+PORT=8500 RELOAD=true python server.py
 ```
 
 ### 使用 Docker 运行
@@ -118,18 +107,26 @@ cp .env.example .env
 docker run -p 8400:8400 --env-file .env rootdata-mcp-server
 
 # 指定端口
-docker run -e PORT=8450 -p 8450:8450 --env-file .env rootdata-mcp-server
-
-# 启用热重载（开发模式）
-docker run -e RELOAD=true -p 8400:8400 --env-file .env rootdata-mcp-server
+docker run -e PORT=8500 -p 8500:8500 --env-file .env rootdata-mcp-server
 ```
 
 ## 验证安装
 
-启动服务器后，可以通过访问以下 URL 来验证服务器是否正常运行（将 PORT 替换为实际使用的端口，默认为 8400）：
+启动服务器后，可以通过访问以下 URL 来验证服务器是否正常运行：
 
 - 健康检查: http://localhost:8400/health
 - MCP 清单: http://localhost:8400/manifest.json
+
+## 故障排除
+
+### 端口冲突问题
+
+如果启动时出现 `Address already in use` 错误，表示端口 8400 已被占用，可以通过以下方式解决：
+
+```bash
+# 使用不同的端口启动服务器
+PORT=8500 python server.py
+```
 
 ## MCP 工具说明
 
