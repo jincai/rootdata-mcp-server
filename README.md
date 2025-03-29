@@ -59,10 +59,10 @@ ROOTDATA_API_KEY=your_api_key_here
 
 ### 启动服务器
 
-基本启动命令：
+**推荐方式**（使用专用运行脚本，可靠地处理端口冲突）：
 
 ```bash
-python server.py
+python run.py
 ```
 
 服务器会自动寻找一个可用的端口（默认尝试 8000 端口，如果被占用则随机选择 8001-9000 范围内的可用端口）。
@@ -72,19 +72,25 @@ python server.py
 **指定端口**：
 
 ```bash
-PORT=8080 python server.py
+PORT=8080 python run.py
 ```
 
 **启用热重载**（开发模式，会监视文件变化并自动重启）：
 
 ```bash
-RELOAD=true python server.py
+RELOAD=true python run.py
 ```
 
 **同时指定端口和启用热重载**：
 
 ```bash
-PORT=8080 RELOAD=true python server.py
+PORT=8080 RELOAD=true python run.py
+```
+
+**直接使用 server.py**（不推荐，可能会遇到端口冲突）：
+
+```bash
+python server.py
 ```
 
 ### 使用 Docker 运行
@@ -129,11 +135,22 @@ docker run -e RELOAD=true -p 8000:8000 --env-file .env rootdata-mcp-server
 
 ### 端口冲突问题
 
-如果你看到 `Address already in use` 错误，服务器应该会自动选择另一个可用端口。如果仍然遇到问题，可以尝试：
+如果你看到 `Address already in use` 错误：
 
-1. 手动指定一个不同的端口：`PORT=8888 python server.py`
-2. 关闭热重载模式（如果已启用）：确保没有设置 `RELOAD=true`
-3. 检查并关闭可能占用端口的其他应用程序
+1. **使用 run.py 脚本**（推荐）：
+   ```bash
+   python run.py
+   ```
+   这个脚本会自动寻找可用端口。
+
+2. **手动指定一个不同的端口**：
+   ```bash
+   PORT=8888 python run.py
+   ```
+
+3. **检查并关闭占用端口的程序**：
+   - 在 Linux/Mac 上：`lsof -i :8000`
+   - 在 Windows 上：`netstat -ano | findstr :8000`
 
 ## MCP 工具说明
 
