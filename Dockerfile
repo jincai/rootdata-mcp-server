@@ -13,7 +13,7 @@ COPY .env.example .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 暴露端口（注意：实际端口可能会根据可用性而变化）
-EXPOSE 8000-9000
+EXPOSE 8400-8500
 
 # 启动命令（使用 run.py 脚本以更可靠地处理端口冲突）
 CMD ["python", "run.py"]
