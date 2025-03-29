@@ -18,7 +18,7 @@
 
 ### Prerequisites
 
-* Python 3.8 或更高版本
+* Python 3.10 或更高版本
 * [uv](https://github.com/astral-sh/uv) 包管理器（推荐）
 
 ### Installation
