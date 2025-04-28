@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/mseep-audited.png)](https://mseep.ai/app/jincai-rootdata-mcp-server)
+
 # RootData MCP Server
 
 ## Introduction
